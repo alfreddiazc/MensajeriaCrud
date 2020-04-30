@@ -9,11 +9,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Mensajeria</title>
     </head>
     <body>
           <div>
             <a href="mensajeriaController?action=mostrar">listado de mensajes</a>
+            <a href="registrar.jsp">Registrar mensaje</a>
         </div>
     </body>
 </html>

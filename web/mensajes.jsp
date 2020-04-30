@@ -35,14 +35,14 @@
                         <td><c:out value="${mensaje.sitioweb}"/></td>
                         <td><c:out value="${mensaje.mensaje}"/></td>
                         <td><c:out value="${mensaje.usuario}"/></td>
-                        <td><a href='/editar.jsp?id=<c:out value="${mensaje.id}"/>'>
-                                <input type="submit" value="Detalle"/></a>
-                            <a href='/eliminar.jsp?id=<c:out value="${mensaje.id}"/>'>
-                                <input type="submit" value="Eliminar"/></a></td>
+                        <td><a href="mensajeriaController?action=showEditar&id=<c:out value="${mensaje.id}"/>"> Editar </a>
+                            <a href="mensajeriaController?action=eliminar&id=<c:out value="${mensaje.id}"/>"> Eliminar</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
            
         </table>
+        <a href="registrar.jsp">Registrar nuevo</a>
     </body>
 </html>

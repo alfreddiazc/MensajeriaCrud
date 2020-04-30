@@ -13,6 +13,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Dto.Usuario;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,6 +25,8 @@ import javax.persistence.EntityManagerFactory;
  * @author USUARIO
  */
 public class MensajeJpaController implements Serializable {
+
+    private Connection connection;
 
     public MensajeJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -69,13 +74,16 @@ public class MensajeJpaController implements Serializable {
             }
             mensaje = em.merge(mensaje);
             if (usuarioOld != null && !usuarioOld.equals(usuarioNew)) {
+
                 usuarioOld.getMensajeList().remove(mensaje);
                 usuarioOld = em.merge(usuarioOld);
             }
             if (usuarioNew != null && !usuarioNew.equals(usuarioOld)) {
+
                 usuarioNew.getMensajeList().add(mensaje);
                 usuarioNew = em.merge(usuarioNew);
             }
+
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -164,5 +172,5 @@ public class MensajeJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

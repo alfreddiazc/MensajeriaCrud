@@ -64,12 +64,36 @@ public class mensajeriaController extends HttpServlet {
                 String sitioweb=request.getParameter("sitioweb");
                 String mensaje=request.getParameter("mensaje");
                 Mensaje m=new Mensaje(Integer.parseInt(id), nombre, email, sitioweb, mensaje);
-                m.setUsuario(null);
+                String user=request.getParameter("usuarios");
+                System.out.println("user: "+user);
+                m.setUsuario(msj.buUsuario(user));
                 msj.update(m);
                 request.getRequestDispatcher("index.jsp").forward(request, response);
+                break;
             case "eliminar":
                 msj.removMensaje(Integer.parseInt(request.getParameter("id")));
                 request.getRequestDispatcher("index.jsp").forward(request, response);
+                break;
+            case "registrar":
+                String n=request.getParameter("nombre");
+                String e=request.getParameter("email");
+                String s=request.getParameter("sitioweb");
+                String mens=request.getParameter("mensaje");
+                Mensaje newm=new Mensaje();
+                String usuario=request.getParameter("usuarios");
+                newm.setNombre(n);
+                newm.setEmail(e);
+                newm.setSitioweb(s);
+                newm.setMensaje(mens);
+                newm.setUsuario(msj.buUsuario(usuario));
+                if( msj.registrar(newm)){
+                    request.setAttribute("list", msj.getMensajes());
+                    request.getRequestDispatcher("mensajes.jsp").forward(request, response);
+                }else{
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+                
+                
                 
                 
         }
@@ -90,7 +114,7 @@ public class mensajeriaController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**

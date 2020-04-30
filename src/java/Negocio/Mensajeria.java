@@ -7,6 +7,7 @@ package Negocio;
 
 import Dao.Conexion;
 import Dao.MensajeJpaController;
+import Dao.UsuarioJpaController;
 import Dao.exceptions.NonexistentEntityException;
 import Dto.Mensaje;
 import Dto.Usuario;
@@ -24,6 +25,18 @@ public class Mensajeria {
 
     public Mensajeria() {
         con = Conexion.getConexion();
+    }
+
+    public boolean registrar(Mensaje m) {
+
+        MensajeJpaController mjc = new MensajeJpaController(con.getBd());
+        for (Mensaje me : this.getMensajes()) {
+            if (me.getNombre().equals(m.getNombre()) && me.getEmail().equals(m.getEmail()) && me.getMensaje().equals(m.getMensaje())) {
+                return false;
+            }
+        }
+        mjc.create(m);
+        return true;
     }
 
     public List<Mensaje> getMensajes() {
@@ -57,8 +70,21 @@ public class Mensajeria {
             Logger.getLogger(Mensajeria.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//    public List<Usuario> getUsuario(){
-//        
-//    }
+
+    public List<Usuario> getUsuario() {
+        UsuarioJpaController ujc = new UsuarioJpaController(con.getBd());
+        List<Usuario> lu = ujc.findUsuarioEntities();
+        return lu;
+    }
+
+    public Usuario buUsuario(String u) {
+        List<Usuario> lu = this.getUsuario();
+        for (Usuario usuario : lu) {
+            if (usuario.getUsuario().equals(u)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
 
 }
